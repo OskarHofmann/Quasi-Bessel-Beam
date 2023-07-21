@@ -8,11 +8,12 @@ Implemented by Oskar Hofmann, 2021
 """
 
 import numpy as np
+import numpy.typing as ntp
 from math import pi
 from scipy.special import jv # v-th order Bessel function of the first kind
 
 
-def radial_intensity(rho, z, w = 1, I_0 = 1, n = 1.5, alpha = 5, wavelength = 1E-6):
+def radial_intensity(rho: ntp.ArrayLike, z: ntp.ArrayLike, w: float = 1, I_0: float = 1, n: float = 1.5, alpha: float = 5, wavelength: float = 1E-6) -> ntp.ArrayLike:
     """Create the intensity profile of a quasi-Bessel beam behind an ideal axicon illuminated by an ideal Gaussian beam
 
     Args:
@@ -33,11 +34,11 @@ def radial_intensity(rho, z, w = 1, I_0 = 1, n = 1.5, alpha = 5, wavelength = 1E
 
     z_0 = (n-1)*alpha*z/w
 
-    def F1(x): 
+    def F1(x: ntp.ArrayLike) -> ntp.ArrayLike: 
         #equation 2
         return np.sqrt(z_0+x)*np.exp(-(z_0+x)**2)
     
-    def F2(x): 
+    def F2(x: ntp.ArrayLike) -> ntp.ArrayLike: 
         #equation 3
 
         #implement heaviside function via np.maximum of the argument and 0, otherwise np.sqrt() would lead to NaN for negative values (NaN*0 = NaN)
@@ -49,7 +50,7 @@ def radial_intensity(rho, z, w = 1, I_0 = 1, n = 1.5, alpha = 5, wavelength = 1E
     return intensity
 
 
-def dof(w, n = 1.5, alpha = 5):
+def dof(w: float, n: float = 1.5, alpha: float = 5) -> float:
     """Calculate the depth of field of a quasi-Bessel beam behind an ideal axicon illuminated by an ideal Gaussian beam
 
     Args:
@@ -67,7 +68,7 @@ def dof(w, n = 1.5, alpha = 5):
 
 
 
-def beam_diameter(wavelength = 1E-6, n = 1.5, alpha = 5):
+def beam_diameter(wavelength: float = 1E-6, n: float = 1.5, alpha: float = 5) -> float:
     """Calculate the approx. beam diameter of a quasi-Bessel beam behind an ideal axicon illuminated by an ideal Gaussian beam defined via the first minimum
 
     Args:
